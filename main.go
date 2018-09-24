@@ -60,8 +60,8 @@ func findSitemapURL(hostname string) string {
 			exitOnError()
 		}
 	}
-	if !strings.HasSuffix(smURL, "/sitemap.xml") || !strings.HasSuffix(smURL, "/sitemap.txt") {
-		// tbd: Check robots.txt ("sitemap:"") ????
+	if !strings.HasSuffix(smURL, "/sitemap.xml") && !strings.HasSuffix(smURL, "/sitemap.txt") {
+		// tbd: Check robots.txt ("Sitemap:") ????
 		if !strings.HasSuffix(smURL, "/") {
 			// tbd: check if it already includes sitemap file name at the end???
 			smURL += "/sitemap.xml"

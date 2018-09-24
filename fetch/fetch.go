@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 )
 
 type location struct {
@@ -58,22 +57,37 @@ func SitemapItems(sitemapURL string) {
 			continue
 		}
 
-		if strings.HasSuffix(url, ".txt") {
-			go func() {
-				scanner := bufio.NewScanner(res.Body)
-				defer res.Body.Close()
-				for scanner.Scan() {
-					printSiteItem(scanner.Text())
-				}
-				if err := scanner.Err(); err != nil {
-					log.Fatal(err)
-				}
-			}()
-		} else if strings.HasSuffix(url, ".xml") {
-			// TBD: Recurse ???
-		} else {
-			// Ignore for now.
-		}
+		go func() {
+			scanner := bufio.NewScanner(res.Body)
+			defer res.Body.Close()
+			for scanner.Scan() {
+				printSiteItem(scanner.Text())
+			}
+			if err := scanner.Err(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+
+		// TBD:
+		// Recurse based on the file type...
+		// TBD: Handle compressed files (e.g. xml.gz)
+
+		// if strings.HasSuffix(url, ".txt") {
+		// 	go func() {
+		// 		scanner := bufio.NewScanner(res.Body)
+		// 		defer res.Body.Close()
+		// 		for scanner.Scan() {
+		// 			printSiteItem(scanner.Text())
+		// 		}
+		// 		if err := scanner.Err(); err != nil {
+		// 			log.Fatal(err)
+		// 		}
+		// 	}()
+		// } else if strings.HasSuffix(url, ".xml") {
+		// 	// TBD: Recurse ???
+		// } else {
+		// 	// Ignore for now.
+		// }
 	}
 }
 
