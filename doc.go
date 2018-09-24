@@ -1,0 +1,2 @@
+// Sitemap fetcher
+package main

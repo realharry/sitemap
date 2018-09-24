@@ -10,8 +10,6 @@ import (
 	"strings"
 )
 
-const sitemapURL = "https://www.opentable.com/sitemap.xml"
-
 type location struct {
 	Loc string `xml:"loc"`
 }
@@ -24,7 +22,8 @@ type sitemapIndex struct {
 	Sitemap []location `xml:"sitemap"`
 }
 
-func Fetch1() {
+// SitemapItems does sitemap fetching for the given url.
+func SitemapItems(sitemapURL string) {
 	fmt.Println("Hi World!!!")
 
 	res, err := http.Get(sitemapURL)
@@ -40,6 +39,9 @@ func Fetch1() {
 	defer res.Body.Close()
 	// body := string(bytes)
 	// fmt.Println("body = ", body)
+
+	// TBD:
+	// Check if the file is xml or txt
 
 	var si sitemapIndex
 	xml.Unmarshal(bytes, &si)
@@ -57,28 +59,24 @@ func Fetch1() {
 		}
 
 		if strings.HasSuffix(url, ".txt") {
-			scanner := bufio.NewScanner(res.Body)
-			defer res.Body.Close()
-			for scanner.Scan() {
-				fmt.Println(scanner.Text())
-			}
-
-			if err := scanner.Err(); err != nil {
-				log.Fatal(err)
-			}
-
+			go func() {
+				scanner := bufio.NewScanner(res.Body)
+				defer res.Body.Close()
+				for scanner.Scan() {
+					printSiteItem(scanner.Text())
+				}
+				if err := scanner.Err(); err != nil {
+					log.Fatal(err)
+				}
+			}()
 		} else if strings.HasSuffix(url, ".xml") {
-			// bytes, err := ioutil.ReadAll(res.Body)
-			// if err != nil {
-			// 	continue
-			// }
-			// defer res.Body.Close()
-			// body := string(bytes)
-			// fmt.Println("XML Body = ", body)
+			// TBD: Recurse ???
 		} else {
 			// Ignore for now.
 		}
-
 	}
+}
 
+func printSiteItem(line string) {
+	fmt.Println(line)
 }
