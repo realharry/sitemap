@@ -24,7 +24,7 @@ type sitemapIndex struct {
 
 // SitemapItems does sitemap fetching for the given url.
 func SitemapItems(sitemapURL string) {
-	fmt.Println("Hi World!!!")
+	fmt.Printf("Fetching sitemap: %s...\n", sitemapURL)
 
 	res, err := http.Get(sitemapURL)
 	if err != nil {

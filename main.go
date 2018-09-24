@@ -20,16 +20,16 @@ func main() {
 
 	// argsWithProg := os.Args
 	wordPtr := flag.String("url", "", "top level sitemap url")
-	depthPtr := flag.Int("depth", 1, "crawl depth")
+	// depthPtr := flag.Int("depth", 1, "crawl depth")
 	// boolPtr := flag.Bool("fork", false, "a bool")
 
 	flag.Parse()
 
-	// fmt.Println(argsWithProg)
-	fmt.Println("url:", *wordPtr)
-	fmt.Println("depth:", *depthPtr)
-	// fmt.Println("fork:", *boolPtr)
-	// fmt.Println("args:", flag.Args())
+	// // fmt.Println(argsWithProg)
+	// fmt.Println("url:", *wordPtr)
+	// fmt.Println("depth:", *depthPtr)
+	// // fmt.Println("fork:", *boolPtr)
+	// // fmt.Println("args:", flag.Args())
 
 	args := flag.Args()
 	if *wordPtr == "" && len(args) != 1 || *wordPtr != "" && len(args) >= 1 {
@@ -47,7 +47,7 @@ func main() {
 		sitemapURL = findSitemapURL(hostname)
 	}
 
-	fmt.Println("sitemapURL:", sitemapURL)
+	// fmt.Println("sitemapURL:", sitemapURL)
 	fetch.SitemapItems(sitemapURL)
 }
 
