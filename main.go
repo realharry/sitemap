@@ -55,6 +55,7 @@ func findSitemapURL(hostname string) string {
 	smURL := hostname
 	if !isURL(smURL) {
 		if !strings.HasPrefix(smURL, "http") {
+			// TBD: Add prefix "www." to hostname ????
 			smURL = "http://" + hostname
 		} else {
 			exitOnError()
